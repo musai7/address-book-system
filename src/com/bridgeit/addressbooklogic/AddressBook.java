@@ -4,12 +4,12 @@ import java.util.Scanner;
 
 public class AddressBook {
 
-	private final String firstName;
-	private final String lastName;
-	private final String address;
-	private final String cityName;
-	private final String stateName;
-	private final String zip;
+	private String firstName;
+	private String lastName;
+	private String address;
+	private String cityName;
+	private String stateName;
+	private String zip;
 	private String phoneNumber;
 
 	public AddressBook(String firstName, String lastName, String address, String cityName, String stateName, String zip,
@@ -24,34 +24,34 @@ public class AddressBook {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
-	public String getAddress() {
-		return address;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
-	public String getCityName() {
-		return cityName;
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
 	}
 
-	public String getStateName() {
-		return stateName;
+	public void setStateName(String stateName) {
+		this.stateName = stateName;
 	}
 
-	public String getZip() {
-		return zip;
+	public void setZip(String zip) {
+		this.zip = zip;
 	}
 
-	public String getPhoneNumber() {
-		return phoneNumber;
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "AddressBook [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", cityName="
@@ -59,7 +59,7 @@ public class AddressBook {
 	}
 
 	public static AddressBook contactPerson() {
-		
+
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("first name : ");
 		String firstName = scanner.next();
@@ -69,21 +69,34 @@ public class AddressBook {
 		String address = scanner.next();
 		System.out.println("city name : ");
 		String cityName = scanner.next();
-		System.out.println("stste name : ");
+		System.out.println("state name : ");
 		String stateName = scanner.next();
 		System.out.println("zip : ");
 		String zip = scanner.next();
 		System.out.println("phone number : ");
 		String phoneNumber = scanner.next();
-		AddressBook addressBook = new AddressBook(firstName, lastName, address, cityName, stateName, zip,
-				phoneNumber);
+		AddressBook addressBook = new AddressBook(firstName, lastName, address, cityName, stateName, zip, phoneNumber);
+		return addressBook;
+	}
+
+	public AddressBook updateDetails(String name,AddressBook addressBook) {
+
+		if (firstName.equals(name)) {
+			System.out.println(this.firstName);
+			addressBook = contactPerson();
+		}
 		return addressBook;
 	}
 
 	public static void main(String[] args) {
-		
+
 		System.out.println("welcome to the address book program");
-		AddressBook addressBook =contactPerson();
-		System.out.println(addressBook);		
+		AddressBook addressBook = contactPerson();
+		System.out.println(addressBook);
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("enter a name");
+		String name = scanner.next();
+		addressBook = addressBook.updateDetails(name,addressBook);
+		System.out.println(addressBook);
 	}
 }
