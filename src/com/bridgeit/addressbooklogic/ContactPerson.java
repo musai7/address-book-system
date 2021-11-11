@@ -1,5 +1,7 @@
 package com.bridgeit.addressbooklogic;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ContactPerson {
@@ -27,9 +29,7 @@ public class ContactPerson {
 
 	public AddressBook updateDetails(String name,AddressBook addressBook) {
 		
-		//AddressBook addressBook2 = new AddressBook(name, name, name, name, name, name, name)
 		if (addressBook.getFirstName().equals(name)) {
-			//System.out.println(this.firstName);
 			addressBook = contactPerson();
 		}
 		return addressBook;
