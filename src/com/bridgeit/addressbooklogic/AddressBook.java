@@ -23,10 +23,46 @@ public class AddressBook {
 		this.zip = zip;
 		this.phoneNumber = phoneNumber;
 	}
+	
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+
+	public String getLastName() {
+		return lastName;
+	}
+
+
+	public String getAddress() {
+		return address;
+	}
+
+
+	public String getCityName() {
+		return cityName;
+	}
+
+
+	public String getStateName() {
+		return stateName;
+	}
+
+
+	public String getZip() {
+		return zip;
+	}
+
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
@@ -56,47 +92,5 @@ public class AddressBook {
 	public String toString() {
 		return "AddressBook [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", cityName="
 				+ cityName + ", stateName=" + stateName + ", zip=" + zip + ", phoneNumber=" + phoneNumber + "]";
-	}
-
-	public static AddressBook contactPerson() {
-
-		Scanner scanner = new Scanner(System.in);
-		System.out.println("first name : ");
-		String firstName = scanner.next();
-		System.out.println("last name : ");
-		String lastName = scanner.next();
-		System.out.println("address : ");
-		String address = scanner.next();
-		System.out.println("city name : ");
-		String cityName = scanner.next();
-		System.out.println("state name : ");
-		String stateName = scanner.next();
-		System.out.println("zip : ");
-		String zip = scanner.next();
-		System.out.println("phone number : ");
-		String phoneNumber = scanner.next();
-		AddressBook addressBook = new AddressBook(firstName, lastName, address, cityName, stateName, zip, phoneNumber);
-		return addressBook;
-	}
-
-	public AddressBook updateDetails(String name,AddressBook addressBook) {
-
-		if (firstName.equals(name)) {
-			System.out.println(this.firstName);
-			addressBook = contactPerson();
-		}
-		return addressBook;
-	}
-
-	public static void main(String[] args) {
-
-		System.out.println("welcome to the address book program");
-		AddressBook addressBook = contactPerson();
-		System.out.println(addressBook);
-		Scanner scanner = new Scanner(System.in);
-		System.out.println("enter a name");
-		String name = scanner.next();
-		addressBook = addressBook.updateDetails(name,addressBook);
-		System.out.println(addressBook);
 	}
 }
