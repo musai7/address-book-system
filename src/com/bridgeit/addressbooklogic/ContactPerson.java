@@ -6,6 +6,17 @@ import java.util.Scanner;
 
 public class ContactPerson {
 	
+	public List<AddressBook> addreses;
+	
+	public ContactPerson() {
+		addreses = new ArrayList();
+	}
+	
+	public void addContact(AddressBook addressBook) {
+		addreses.add(addressBook);
+		System.out.println(addreses);
+	}
+
 	public static AddressBook contactPerson() {
 
 		Scanner scanner = new Scanner(System.in);
@@ -27,24 +38,40 @@ public class ContactPerson {
 		return addressBook;
 	}
 
-	public AddressBook updateDetails(String name,AddressBook addressBook) {
+	public void updateDetails(String name,AddressBook addressBook) {
 		
-		if (addressBook.getFirstName().equals(name)) {
-			addressBook = contactPerson();
+		Scanner scanner = new Scanner(System.in);
+		for(int i=0;i<addreses.size();i++) {
+			if (addressBook.getFirstName().equals(name)) {
+				System.out.println("enter phone number");
+				String number = scanner.next();
+				addressBook.setPhoneNumber(number);
+			}
 		}
-		return addressBook;
+		System.out.println(addreses);
+	}
+	
+	public void deleteContact(String name,AddressBook addressBook) {
+		for(int i=0;i<addreses.size();i++) {
+			if(addressBook.getFirstName().equals(name)) {
+				addreses.remove(i);
+			}
+		}
+		System.out.println(addreses);
 	}
 
 	public static void main(String[] args) {
 
 		System.out.println("welcome to the address book program");
 		AddressBook addressBook = contactPerson();
-		System.out.println(addressBook);
+		ContactPerson contactPerson = new ContactPerson();
+		contactPerson.addContact(addressBook);
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("enter a name");
+		System.out.println("enter a first name of contact to modify");
 		String name = scanner.next();
-		ContactPerson contactPerson=new ContactPerson();
-		addressBook =contactPerson.updateDetails(name,addressBook);
-		System.out.println(addressBook);
+		contactPerson.updateDetails(name,addressBook);
+		System.out.println("enter a first name to delete contact ");
+		String name1 = scanner.next();
+		contactPerson.deleteContact(name,addressBook);
 	}
 }
