@@ -68,4 +68,14 @@ public class ContactPerson {
 		}
 		System.out.println(addreses);
 	}
+	
+	public int dublicateAddress(String name,AddressBook addressBook) {
+		int count=0;
+		for (int i = 0; i < addreses.size(); i++) {
+			if (addressBook.getFirstName().equals(name)) {
+				count++;
+			}
+		}
+		return count;
+	}
 }
