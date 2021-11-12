@@ -9,7 +9,7 @@ public class ContactPerson {
 	public List<AddressBook> addreses;
 
 	public ContactPerson() {
-		addreses = new ArrayList();
+		addreses = new ArrayList<>();
 	}
 
 	public void addContact(AddressBook addressBook) {
@@ -19,32 +19,32 @@ public class ContactPerson {
 		System.out.println(addreses);
 	}
 
-	public static AddressBook contactPerson() {
+	public static AddressBook inputContactDetails() {
 		
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("first name : ");
+		System.out.println(" enter first name : ");
 		String firstName = scanner.next();
-		System.out.println("last name : ");
+		System.out.println("enter last name : ");
 		String lastName = scanner.next();
-		System.out.println("address : ");
+		System.out.println(" enter address : ");
 		String address = scanner.next();
-		System.out.println("city name : ");
+		System.out.println("enter city name : ");
 		String cityName = scanner.next();
-		System.out.println("state name : ");
+		System.out.println("enter state name : ");
 		String stateName = scanner.next();
 		System.out.println("zip : ");
 		String zip = scanner.next();
-		System.out.println("phone number : ");
+		System.out.println("enter phone number : ");
 		String phoneNumber = scanner.next();
 		AddressBook addressBook = new AddressBook(firstName, lastName, address, cityName, stateName, zip, phoneNumber);
 		return addressBook;
 	}
 
-	public void updateDetails(String name, AddressBook addressBook) {
+	public void updateContact(String name, AddressBook addressBook) {
 		//updated the phone number of existing contact
 		int count=0;
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("enter phone number");
+		System.out.println("enter phone number : ");
 		String number = scanner.next();
 		for (int i = 0; i < addreses.size(); i++) {
 			if (addressBook.getFirstName().equals(name)) {
