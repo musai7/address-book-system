@@ -2,10 +2,10 @@ package com.bridgeit.addressbooklogic;
 
 import java.util.Scanner;
 
-public class MultiplePersonsAddreses {
+public class AddressBookMain {
 	public static void main(String[] args) {
 
-		System.out.println("welcome to the address book program");
+		System.out.println("welcome to the address book program ");
 		AddressBook addressBook = new AddressBook(null, null, null, null, null, null, null);
 		ContactPerson contactPerson = new ContactPerson();
 		Scanner scanner = new Scanner(System.in);
@@ -21,23 +21,24 @@ public class MultiplePersonsAddreses {
 			switch (num) {
 			
 				case 1:
-					addressBook = ContactPerson.contactPerson();
+					addressBook = ContactPerson.inputContactDetails();
 					contactPerson.addContact(addressBook);
 					break;
 				case 2:
-					System.out.println("enter a first name of contact to modify");
+					System.out.println("enter a firsName of contact to modify");
 					String name = scanner.next();
-					contactPerson.updateDetails(name, addressBook);
+					contactPerson.updateContact(name, addressBook);
 					break;
 				case 3:
 					System.out.println("enter a first name to delete contact ");
 					String name1 = scanner.next();
 					contactPerson.deleteContact(name1, addressBook);
-				default :
+					break;
+				case 4 :
 					System.out.println("quit from the address book program");
 					System.out.println(contactPerson.addreses);
+					break;
 			}
 		}
 	}
-
 }
