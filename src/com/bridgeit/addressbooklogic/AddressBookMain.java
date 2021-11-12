@@ -21,8 +21,14 @@ public class AddressBookMain {
 			switch (num) {
 			
 				case 1:
-					addressBook = ContactPerson.inputContactDetails();
-					contactPerson.addContact(addressBook);
+					System.out.println("enter a name to check contact excists or not ");
+					String name1 = scanner.next();
+					int count =contactPerson.dublicateAddress(name1, addressBook);
+					if(count==0) {
+						addressBook = ContactPerson.inputContactDetails();
+						contactPerson.addContact(addressBook);
+						break;
+					}
 					break;
 				case 2:
 					System.out.println("enter a firsName of contact to modify");
@@ -31,8 +37,8 @@ public class AddressBookMain {
 					break;
 				case 3:
 					System.out.println("enter a first name to delete contact ");
-					String name1 = scanner.next();
-					contactPerson.deleteContact(name1, addressBook);
+					String name2 = scanner.next();
+					contactPerson.deleteContact(name2, addressBook);
 					break;
 				case 4 :
 					System.out.println("quit from the address book program");
