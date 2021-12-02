@@ -10,6 +10,10 @@ public class AddressBook {
 	private String zip;
 	private String phoneNumber;
 
+	public AddressBook() {
+		
+	}
+	
 	public AddressBook(String firstName, String lastName, String address, String cityName, String stateName, String zip,
 			String phoneNumber) {
 		super();
