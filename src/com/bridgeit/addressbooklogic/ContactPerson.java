@@ -47,7 +47,6 @@ public class ContactPerson<T> implements IAddressBook {
 		System.out.println("enter phone number : ");
 		String phoneNumber = scanner.next();
 		AddressBook addressBook = new AddressBook(firstName, lastName, address, cityName, stateName, zip, phoneNumber);
-		scanner.close();
 		return addressBook;
 	}
 
@@ -67,7 +66,6 @@ public class ContactPerson<T> implements IAddressBook {
 			System.out.println(name + " contact not existed ");
 		}
 		System.out.println(addreses);
-		scanner.close();
 	}
 
 	public void deleteContact(String name, AddressBook addressBook) {
