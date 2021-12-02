@@ -3,48 +3,73 @@ package com.bridgeit.addressbooklogic;
 import java.util.Scanner;
 
 public class AddressBookMain {
-	public static void main(String[] args) {
 
-		System.out.println("welcome to the address book program ");
-		AddressBook addressBook = new AddressBook(null, null, null, null, null, null, null);
-		ContactPerson contactPerson = new ContactPerson();
+	public final static int EXIT = 5;
+
+	public static <T> void main(String[] args) {
+
+		MultipleAddressBooks multipleAddressBooks = new MultipleAddressBooks();
+		System.out.println("....................welcome to the address book program..........................");
 		Scanner scanner = new Scanner(System.in);
-		int exit = 0;
-		
-		while (exit != 4) {
+		int exit2=0;
+		while (exit2 != 3) {
 			
-			System.out.println(
-					"for adding enter : 1 \n for updating enter : 2 \n for deletion enter : 3 \n enter 4 for exit ");
+			ContactPerson<Object> contactPerson = new ContactPerson<>();
+			AddressBook addressBook = new AddressBook();
+			System.out.println("enter adress book name of a person");
+			String person = scanner.next();
+			System.out.println(" enter 1 : for add multiple address books \n enter 2 : for print multipleBoks \n enter 3 : for exit \n ");
 			int num = scanner.nextInt();
-			exit = num;
-			
 			switch (num) {
-			
-				case 1:
-					System.out.println("enter a name to check contact excists or not ");
-					String name1 = scanner.next();
-					int count =contactPerson.dublicateAddress(name1, addressBook);
-					if(count==0) {
-						addressBook = ContactPerson.inputContactDetails();
-						contactPerson.addContact(addressBook);
+			case 1:
+				int exit = 0;
+				while (exit != EXIT) {
+
+					System.out.println(
+							"enter 1 : for adding \n enter 2 : for modify the contact details \n enter 3 for delate contact  "
+									+ "\n enter 4 : for multiple address books \n enter " + EXIT + " : for exit");
+					int num1 = scanner.nextInt();
+					exit = num1;
+
+					switch (num1) {
+
+					case 1:
+						System.out.println("enter a name to check contact excists or not ");
+						String name1 = scanner.next();
+						int count = contactPerson.dublicateAddress(name1, addressBook);
+						if (count == 0) {
+							addressBook = ContactPerson.inputContactDetails();
+							contactPerson.addContact(addressBook);
+							break;
+						}
+						break;
+					case 2:
+						System.out.println("enter a firsName of contact to modify");
+						String name = scanner.next();
+						contactPerson.updateContact(name, addressBook);
+						break;
+					case 3:
+						System.out.println("enter a first name to delete contact ");
+						String name2 = scanner.next();
+						contactPerson.deleteContact(name2, addressBook);
+						break;
+					case EXIT:
+						System.out.println("quit from the address book program");
 						break;
 					}
-					break;
-				case 2:
-					System.out.println("enter a firsName of contact to modify");
-					String name = scanner.next();
-					contactPerson.updateContact(name, addressBook);
-					break;
-				case 3:
-					System.out.println("enter a first name to delete contact ");
-					String name2 = scanner.next();
-					contactPerson.deleteContact(name2, addressBook);
-					break;
-				case 4 :
-					System.out.println("quit from the address book program");
-					System.out.println(contactPerson.addreses);
-					break;
+				}
+				//contactPerson.multiAddressBooks(addressBook);
+				
+				multipleAddressBooks.mapBook.put(person, ContactPerson.addreses);
+				System.out.println(multipleAddressBooks.mapBook);
+				break;
+			case 2:
+				contactPerson.printBooks(multipleAddressBooks);
+			case 3:
+				exit2=3;
+				break;
 			}
 		}
+		scanner.close();
 	}
 }
