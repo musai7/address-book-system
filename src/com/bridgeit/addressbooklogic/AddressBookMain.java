@@ -1,11 +1,5 @@
 package com.bridgeit.addressbooklogic;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Scanner;
 
 public class AddressBookMain {
@@ -68,7 +62,7 @@ public class AddressBookMain {
 						break;
 					}
 				}				
-				multipleAddressBooks.mapBook.put(person, contactPerson.addreses);
+				multipleAddressBooks.mapBook.put(person, ContactPerson.addreses);
 				System.out.println(multipleAddressBooks.mapBook);
 				break;
 			case 2:

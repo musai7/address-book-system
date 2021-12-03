@@ -12,14 +12,6 @@ public class ContactPerson<T> implements IAddressBook {
 	public ContactPerson() {
 		addreses = new ArrayList<>();
 	}
-	
-//	public List<AddressBook> getAddreses() {
-//		return addreses;
-//	}
-//
-//	public void setAddreses(List<AddressBook> addreses) {
-//		this.addreses = addreses;
-//	}
 
 	public void addContact(AddressBook addressBook) {
 
@@ -105,18 +97,35 @@ public class ContactPerson<T> implements IAddressBook {
 
 	public void searchCityState(MultipleAddressBooks multipleAddressBooks) {
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("enter city name");
-		String city = scanner.next();
-		String state = scanner.next();
-		for(List<AddressBook> entry : multipleAddressBooks.mapBook.values()) {
-			for(AddressBook addressBook1 : entry) {
-				if(addressBook1.getCityName().equals(city)) {
-					System.out.println("city matched : " + city);
-				}
-				if(addressBook1.getStateName().equals(state)) {
-					System.out.println("state matched : " + state);
+		System.out.println("enter 1 : for search a person by city name \n enter 2 : for search a person by state name ");
+		int num = scanner.nextInt();
+		switch(num) {
+		
+		case 1 : 
+			System.out.println("enter city name to search person ");
+			String city = scanner.next();
+			for(List<AddressBook> entry : multipleAddressBooks.mapBook.values()) {
+				for(AddressBook addressBook1 : entry) {
+					if(addressBook1.getCityName().equals(city)) {
+						System.out.println("city matched : " + city);
+						System.out.println("person name : " + addressBook1.getFirstName());
+					}
 				}
 			}
-		}	
+			break;
+		case 2 :
+			System.out.println("enter state name to search person ");
+			String state = scanner.next();
+			for(List<AddressBook> entry : multipleAddressBooks.mapBook.values()) {
+				for(AddressBook addressBook1 : entry) {
+					if(addressBook1.getStateName().equals(state)) {
+						System.out.println("state matched : " + state);
+						System.out.println("person name : " + addressBook1.getFirstName());
+					}
+				}
+			}
+			break;
+		}
+			
 	}
 }
