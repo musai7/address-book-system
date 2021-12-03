@@ -1,6 +1,6 @@
 package com.bridgeit.addressbooklogic;
 
-public class AddressBook {
+	public class AddressBook {
 
 	private String firstName;
 	private String lastName;
