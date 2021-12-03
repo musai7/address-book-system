@@ -7,19 +7,19 @@ import java.util.Scanner;
 public class ContactPerson<T> implements IAddressBook {
 
 	static int value;
-	public static List<AddressBook> addreses;
+	public static ArrayList<AddressBook> addreses;
 
 	public ContactPerson() {
 		addreses = new ArrayList<>();
 	}
 	
-	public List<AddressBook> getAddreses() {
-		return addreses;
-	}
-
-	public void setAddreses(List<AddressBook> addreses) {
-		this.addreses = addreses;
-	}
+//	public List<AddressBook> getAddreses() {
+//		return addreses;
+//	}
+//
+//	public void setAddreses(List<AddressBook> addreses) {
+//		this.addreses = addreses;
+//	}
 
 	public void addContact(AddressBook addressBook) {
 
