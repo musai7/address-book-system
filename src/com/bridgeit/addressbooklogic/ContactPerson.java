@@ -102,4 +102,21 @@ public class ContactPerson<T> implements IAddressBook {
 
 		System.out.println(multipleAddressBooks.mapBook);
 	}
+
+	public void searchCityState(MultipleAddressBooks multipleAddressBooks) {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("enter city name");
+		String city = scanner.next();
+		String state = scanner.next();
+		for(List<AddressBook> entry : multipleAddressBooks.mapBook.values()) {
+			for(AddressBook addressBook1 : entry) {
+				if(addressBook1.getCityName().equals(city)) {
+					System.out.println("city matched : " + city);
+				}
+				if(addressBook1.getStateName().equals(state)) {
+					System.out.println("state matched : " + state);
+				}
+			}
+		}	
+	}
 }

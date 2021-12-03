@@ -74,15 +74,7 @@ public class AddressBookMain {
 			case 2:
 				contactPerson.printBooks(multipleAddressBooks);
 			case 3:
-				System.out.println("enter city name");
-				String city = scanner.next();
-				for(List<AddressBook> entry : multipleAddressBooks.mapBook.values()) {
-					for(AddressBook addressBook1 : entry) {
-						if(addressBook1.getCityName().equals(city)) {
-							System.out.println("city matched : " + city);
-						}
-					}
-				}
+				contactPerson.searchCityState(multipleAddressBooks);
 				break;
 			case 4:
 				exit2=4;
