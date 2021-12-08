@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class ContactPerson<T> implements IAddressBook {
+public class ContactPerson implements IAddressBook {
 
 	static int value;
 	public static ArrayList<AddressBook> addreses;
+	MultipleAddressBooks multipleAddressBooks = MultipleAddressBooks.getInstance();
 
 	public ContactPerson() {
 		addreses = new ArrayList<>();
@@ -42,36 +43,65 @@ public class ContactPerson<T> implements IAddressBook {
 		return addressBook;
 	}
 
-	public void updateContact(String name, AddressBook addressBook) {
+	public void updateContact() {
 		// updated the phone number of existing contact
-		int count = 0;
+
+		int match = 0;
 		Scanner scanner = new Scanner(System.in);
+
+		System.out.println("enter address book name to modify address : ");
+		String bookName = scanner.next();
+		System.out.println("enter a firsName of contact to modify");
+		String name = scanner.next();
 		System.out.println("enter phone number : ");
 		String number = scanner.next();
-		for (int i = 0; i < addreses.size(); i++) {
-			if (addressBook.getFirstName().equals(name)) {
-				addressBook.setPhoneNumber(number);
+
+		if (multipleAddressBooks.mapBook.containsKey(bookName)) {
+			ArrayList<AddressBook> list = multipleAddressBooks.mapBook.get(bookName);
+			for (AddressBook book : list) {
+				if (book.getFirstName().equals(name)) {
+					match++;
+					book.setPhoneNumber(number);
+					break;
+				}
+			}
+			multipleAddressBooks.mapBook.replace(bookName, list);
+		} else {
+			System.out.println("address book not exists ");
+		}
+		if (match == 1) {
+			System.out.println("updated the phone number");
+		} else
+			System.out.println("no match found");
+
+	}
+
+	public void deleteContact() {
+
+		// delete the matched contact at specified book name
+		int count = -1;
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("enter address book name to delete address : ");
+		String bookName = scanner.next();
+		System.out.println("enter a first name to delete contact ");
+		String name = scanner.next();
+		if (multipleAddressBooks.mapBook.containsKey(bookName)) {
+			ArrayList<AddressBook> list = multipleAddressBooks.mapBook.get(bookName);
+			for (AddressBook book : list) {
 				count++;
+				if (book.getFirstName().equals(name)) {
+					list.remove(count);
+					break;
+				}
 			}
+			multipleAddressBooks.mapBook.replace(bookName, list);
+		} else {
+			System.out.println("address book not exists ");
 		}
-		if (count == 0) {
-			System.out.println(name + " contact not existed ");
-		}
-		System.out.println(addreses);
 	}
 
-	public void deleteContact(String name, AddressBook addressBook) {
-
-		// delete the matched contact
-		for (int i = 0; i < addreses.size(); i++) {
-			if (addressBook.getFirstName().equals(name)) {
-				addreses.remove(i);
-			}
-		}
-		System.out.println(addreses);
-	}
-
-	public int dublicateAddress(String name, AddressBook addressBook) {
+	// its check for the existing list contains unique name
+	public int checkUniqueFirstName(String name, AddressBook addressBook) {
 		int count = 0;
 		for (int i = 0; i < addreses.size(); i++) {
 			if (addressBook.getFirstName() == null) {
@@ -83,18 +113,13 @@ public class ContactPerson<T> implements IAddressBook {
 		return count;
 	}
 
-	public void multiAddressBooks(MultipleAddressBooks book) {
-
-		book.mapBook.put("person1", addreses);
-
-	}
-
 	public void printBooks(MultipleAddressBooks multipleAddressBooks) {
 
 		System.out.println(multipleAddressBooks.mapBook);
 	}
 
-	public void searchCityState(MultipleAddressBooks multipleAddressBooks) {
+	public void searchCityState() {
+		
 		while (true) {
 			Scanner scanner = new Scanner(System.in);
 			System.out.println(
@@ -115,7 +140,7 @@ public class ContactPerson<T> implements IAddressBook {
 						}
 					}
 				}
-				System.out.println("number of persons find by city name are : " + count);
+				System.out.println("number of persons find by city name is : " + count);
 				break;
 			case 2:
 				System.out.println("enter state name to search person ");
@@ -129,13 +154,20 @@ public class ContactPerson<T> implements IAddressBook {
 						}
 					}
 				}
-				System.out.println("number of persons find by state name are : " + count);
+				System.out.println("number of persons find by state name is : " + count);
 				break;
 			}
-			if(num ==3) {
+			if (num == 3) {
 				break;
 			}
 		}
 
+	}
+
+	// for storing the address into multiple Address books
+	public void multiAddressBooks(String person, ArrayList<AddressBook> addreses2) {
+
+		multipleAddressBooks.mapBook.put(person, ContactPerson.addreses);
+		System.out.println(multipleAddressBooks.mapBook);
 	}
 }
