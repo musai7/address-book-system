@@ -2,6 +2,7 @@ package com.bridgeit.addressbooklogic;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -131,9 +132,40 @@ public class ContactPerson {
 	
 	//sorting the address by contact name
 	public void sortingAddresses() {
-		 multipleAddressBooks.mapBook.entrySet().stream()
-				.map(Map.Entry::getValue).flatMap(list -> list.stream().sorted((ad1,ad2) -> ad1.getFirstName().compareTo(ad2.getFirstName())));
-		System.out.println(multipleAddressBooks.mapBook);
+		
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("enter 1 : for sorting by person name \n enter 2 : for sorting by city name \n"
+				+ " enter 3 : for sorting by state name  \n enter 4 : for sorting by zip ");
+		int num = scanner.nextInt();
+		switch(num) {
+		case 1 :
+			List<AddressBook> sortedMap =  multipleAddressBooks.mapBook.entrySet().stream()
+					.map(Map.Entry::getValue).flatMap(list -> list.stream()
+					.sorted((ad1,ad2) -> ad1.getFirstName().compareTo(ad2.getFirstName()))).collect(Collectors.toList());
+			System.out.println(sortedMap);
+			break;
+		case 2 :
+			List<AddressBook> sortedMap2 =multipleAddressBooks.mapBook.entrySet().stream()
+			.map(Map.Entry::getValue).flatMap(list -> list.stream()
+			.sorted((ad1,ad2) -> ad1.getCityName().compareTo(ad2.getCityName()))).collect(Collectors.toList());
+			System.out.println(sortedMap2);
+			break;
+		case 3 :
+			List<AddressBook> sortedMap3 =multipleAddressBooks.mapBook.entrySet().stream()
+			.map(Map.Entry::getValue).flatMap(list -> list.stream()
+			.sorted((ad1,ad2) -> ad1.getStateName().compareTo(ad2.getStateName())))
+			.collect(Collectors.toList());
+			System.out.println(sortedMap3);
+			break;
+		case 4 :
+			List<AddressBook> sortedMap4 =multipleAddressBooks.mapBook.entrySet().stream()
+			.map(Map.Entry::getValue).flatMap(list -> list.stream()
+			.sorted((ad1,ad2) -> ad1.getZip().compareTo(ad2.getZip())))
+			.collect(Collectors.toList());
+			System.out.println(sortedMap4);
+
+			break;
+		}
 	}
 
 	// for storing the address into multiple Address books

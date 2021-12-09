@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class AddressBookMain {
 
 	public final static int EXIT = 2;
-	public final static int EXIT_TWO = 6;
+	public final static int EXIT_TWO = 7;
 
 
 	public static void main(String[] args) {
@@ -31,7 +31,8 @@ public class AddressBookMain {
 			}
 	
 			System.out.println("\n enter 1 : for enter into an address book \n enter 2 : for modify the contact details \n enter 3 : for delate contact "
-					+ "\n enter 4 : for search city or state \n enter 5 : for print multipleBoks \n enter "+ EXIT_TWO +" : for exit \n ");
+					+ "\n enter 4 : for search city or state \n enter 5 : for print multipleBoks"
+					+ " \n enter 6 : for sorting address \n enter "+ EXIT_TWO +" : for exit \n ");
 			int num = scanner.nextInt();
 
 			switch (num) {
@@ -60,7 +61,6 @@ public class AddressBookMain {
 						break;
 					}
 				}
-				ContactPerson.addreses.sort((l1,l2) -> l1.getFirstName().compareTo(l2.getFirstName()));
 				contactPerson.multiAddressBooks(person,ContactPerson.addreses);
 				break;
 			case 2:
@@ -84,8 +84,10 @@ public class AddressBookMain {
 			case 5:
 				contactPerson.printBooks(multipleAddressBooks);
 				break;
-			case 6:
+			case 6 :
 				contactPerson.sortingAddresses();
+				break;
+			case EXIT_TWO:
 				exitTwo = EXIT_TWO;
 				System.out.println("..................END...................");
 				break;
