@@ -1,5 +1,6 @@
 package com.bridgeit.addressbooklogic;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AddressBookMain {
@@ -9,7 +10,7 @@ public class AddressBookMain {
 
 
 	public static void main(String[] args) {
-
+		
 		MultipleAddressBooks multipleAddressBooks = MultipleAddressBooks.getInstance();
 		
 		System.out.println("....................welcome to the address book program..........................");
@@ -59,13 +60,23 @@ public class AddressBookMain {
 						break;
 					}
 				}
+				ContactPerson.addreses.sort((l1,l2) -> l1.getFirstName().compareTo(l2.getFirstName()));
 				contactPerson.multiAddressBooks(person,ContactPerson.addreses);
 				break;
 			case 2:
-				contactPerson.updateContact();
+				//contactPerson.updateContact();
+				System.out.println("enter address book name to update contact : ");
+				String bookName = scanner.next();
+				System.out.println("enter a first name to update contact ");
+				String name = scanner.next();
+				contactPerson.updateContactConditionally(books -> books.getFirstName().equals(name),bookName,1);
 				break;
 			case 3:
-				contactPerson.deleteContact();
+				System.out.println("enter address book name to delete address : ");
+				String bookName1 = scanner.next();
+				System.out.println("enter a first name to delete contact ");
+				String name1 = scanner.next();
+				contactPerson.updateContactConditionally(books -> books.getFirstName().equals(name1),bookName1,2);
 				break;
 			case 4:
 				contactPerson.searchCityState();
@@ -74,6 +85,7 @@ public class AddressBookMain {
 				contactPerson.printBooks(multipleAddressBooks);
 				break;
 			case 6:
+				contactPerson.sortingAddresses();
 				exitTwo = EXIT_TWO;
 				System.out.println("..................END...................");
 				break;
