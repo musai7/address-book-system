@@ -211,4 +211,33 @@ public class ContactPerson {
 		multipleAddressBooks.mapBook.put(person, ContactPerson.addreses);
 		System.out.println(multipleAddressBooks.mapBook);
 	}
+	
+	public void writeCSVFile() throws IOException {
+
+		List<String[]> stringslist = new ArrayList<>();
+		PrintWriter printWriter = new PrintWriter(HOME_ONE);
+		CSVWriter csvWriter = new CSVWriter(printWriter);
+
+		multipleAddressBooks.mapBook.entrySet().stream().map(Map.Entry::getValue)
+				.forEach(list -> list.stream().forEach(ad -> {
+					stringslist.add(new String[] { ad.getFirstName(), ad.getLastName(), ad.getAddress(),
+							ad.getCityName(), ad.getStateName(), ad.getZip(), ad.getPhoneNumber() });
+				}));
+		csvWriter.writeAll(stringslist);
+		csvWriter.close();
+		System.out.println("....successfully Write into csv file....");
+
+	}
+
+	public void readCSVFile() throws IOException {
+
+		BufferedReader br = new BufferedReader(new FileReader(HOME_ONE));
+		String line = "";
+		while ((line = br.readLine()) != null) {
+			String[] addressArray = line.split(",");
+			System.out.println("AddressBook [firstName=" + addressArray[0] + ", lastName=" + addressArray[1]
+					+ ", address=" + addressArray[2] + ", cityName=" + addressArray[3] + ", stateName="
+					+ addressArray[4] + ", zip=" + addressArray[5] + ", phoneNumber=" + addressArray[6] + "]");
+		}
+	}
 }

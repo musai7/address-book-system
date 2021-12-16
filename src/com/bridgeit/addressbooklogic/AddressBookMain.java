@@ -96,10 +96,10 @@ public class AddressBookMain {
 				contactPerson.readDatafromFile();
 				break;
 			case 9:
-				//contactPerson.writeCSVFile();
+				contactPerson.writeCSVFile();
 				break;
 			case 10:
-				//contactPerson.readCSVFile();
+				contactPerson.readCSVFile();
 				break;
 			case EXIT_TWO:
 
