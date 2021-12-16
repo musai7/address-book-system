@@ -92,7 +92,7 @@ package com.bridgeit.addressbooklogic;
 
 	@Override
 	public String toString() {
-		return "AddressBook [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", cityName="
-				+ cityName + ", stateName=" + stateName + ", zip=" + zip + ", phoneNumber=" + phoneNumber + "]";
+		return "AddressBook [firstName :" + firstName + ", lastName :" + lastName + ", address :" + address + ", cityName :"
+				+ cityName + ", stateName :" + stateName + ", zip :" + zip + ", phoneNumber :" + phoneNumber + "]";
 	}
 }

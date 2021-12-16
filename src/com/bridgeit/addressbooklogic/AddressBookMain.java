@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class AddressBookMain {
 
 	public final static int EXIT = 2;
-	public final static int EXIT_TWO = 11;
+	public final static int EXIT_TWO = 13;
 
 	public static void main(String[] args) throws IOException {
 
@@ -34,8 +34,9 @@ public class AddressBookMain {
 					"\n enter 1 : for enter into an address book \n enter 2 : for modify the contact details \n enter 3 : for delate contact "
 							+ "\n enter 4 : for search city or state \n enter 5 : for print multipleBoks"
 							+ " \n enter 6 : for sorting address \n enter 7 : for write the data into file \n enter 8 : for read the data from file "
-							+ "\n enter 9 : for write the data into CSV file \n enter 10 : for read the data from CSV file \n enter "
-							+ EXIT_TWO + " : for exit \n ");
+							+ "\n enter 9 : for write the data into CSV file \n enter 10 : for read the data from CSV file "
+							+ " \n enter 11 : for write the data into JSON file " + " \n enter 12 : for read the data from JSON file "
+							+ "\n enter " + EXIT_TWO + " : for exit \n ");
 			int num = scanner.nextInt();
 
 			switch (num) {
@@ -100,6 +101,12 @@ public class AddressBookMain {
 				break;
 			case 10:
 				contactPerson.readCSVFile();
+				break;
+			case 11:
+				contactPerson.writeDataToJason();
+				break;
+			case 12:
+				contactPerson.readDataFromJason();
 				break;
 			case EXIT_TWO:
 
