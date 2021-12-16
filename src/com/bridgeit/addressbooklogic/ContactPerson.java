@@ -1,20 +1,27 @@
 package com.bridgeit.addressbooklogic;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Scanner;
 import java.util.function.Predicate;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
+import com.opencsv.CSVWriter;
 
 public class ContactPerson {
 
 	static int value;
+	private static final String HOME = "data/addressBook.txt";
+	private static final String HOME_ONE = "data/addresses.csv";
+
 	public static ArrayList<AddressBook> addreses;
 	MultipleAddressBooks multipleAddressBooks = MultipleAddressBooks.getInstance();
 
@@ -62,6 +69,7 @@ public class ContactPerson {
 			Scanner sc = new Scanner(System.in);
 			for (AddressBook book : list) {
 				if (predicate.test(book)) {
+					System.out.println("enter phone number");
 					book.setPhoneNumber(sc.next());
 					break;
 				}
@@ -101,26 +109,25 @@ public class ContactPerson {
 					"enter 1 : for search a person by city name \n enter 2 : for search a person by state name  \n enter 3 : for exit ");
 			int num = scanner.nextInt();
 			List<ArrayList<AddressBook>> arrlist = multipleAddressBooks.mapBook.entrySet().stream()
-					.map(Map.Entry::getValue)
-					.collect(Collectors.toList());
+					.map(Map.Entry::getValue).collect(Collectors.toList());
+
 			switch (num) {
 
 			case 1:
 				System.out.println("enter city name to search person ");
 				String city = scanner.next();
-				
-				
-				arrlist.stream().forEach(list -> list.stream().forEach(ad -> {
-					if(ad.getCityName().equals(city))
-						System.out.println("city matched name : " + city + " and person name : "+ad.getFirstName());
-				}));
+
+				arrlist.stream().forEach(
+						list -> list.stream().filter(ad -> ad.getCityName().equals(city)).forEach(ad -> System.out
+								.println("city matched name : " + city + " and person name : " + ad.getFirstName())));
+				// arrlist.stream().filter(list ->)
 				break;
 			case 2:
 				System.out.println("enter state name to search person ");
 				String state = scanner.next();
 				arrlist.stream().forEach(list -> list.stream().forEach(ad -> {
-					if(ad.getStateName().equals(state))
-						System.out.println("city matched name : " + state + " and person name : "+ad.getFirstName());
+					if (ad.getStateName().equals(state))
+						System.out.println("city matched name : " + state + " and person name : " + ad.getFirstName());
 				}));
 				break;
 			}
@@ -129,42 +136,72 @@ public class ContactPerson {
 			}
 		}
 	}
-	
-	//sorting the address by contact name
+
+	// sorting the address by contact name
 	public void sortingAddresses() {
-		
+
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("enter 1 : for sorting by person name \n enter 2 : for sorting by city name \n"
 				+ " enter 3 : for sorting by state name  \n enter 4 : for sorting by zip ");
 		int num = scanner.nextInt();
-		switch(num) {
-		case 1 :
-			List<AddressBook> sortedMap =  multipleAddressBooks.mapBook.entrySet().stream()
-					.map(Map.Entry::getValue).flatMap(list -> list.stream()
-					.sorted((ad1,ad2) -> ad1.getFirstName().compareTo(ad2.getFirstName()))).collect(Collectors.toList());
+		switch (num) {
+		case 1:
+			List<AddressBook> sortedMap = multipleAddressBooks.mapBook.entrySet().stream().map(Map.Entry::getValue)
+					.flatMap(list -> list.stream()
+							.sorted((ad1, ad2) -> ad1.getFirstName().compareTo(ad2.getFirstName())))
+					.collect(Collectors.toList());
 			System.out.println(sortedMap);
 			break;
-		case 2 :
-			List<AddressBook> sortedMap2 =multipleAddressBooks.mapBook.entrySet().stream()
-			.map(Map.Entry::getValue).flatMap(list -> list.stream()
-			.sorted((ad1,ad2) -> ad1.getCityName().compareTo(ad2.getCityName()))).collect(Collectors.toList());
+		case 2:
+			List<AddressBook> sortedMap2 = multipleAddressBooks.mapBook.entrySet().stream().map(Map.Entry::getValue)
+					.flatMap(list -> list.stream().sorted((ad1, ad2) -> ad1.getCityName().compareTo(ad2.getCityName())))
+					.collect(Collectors.toList());
 			System.out.println(sortedMap2);
 			break;
-		case 3 :
-			List<AddressBook> sortedMap3 =multipleAddressBooks.mapBook.entrySet().stream()
-			.map(Map.Entry::getValue).flatMap(list -> list.stream()
-			.sorted((ad1,ad2) -> ad1.getStateName().compareTo(ad2.getStateName())))
-			.collect(Collectors.toList());
+		case 3:
+			List<AddressBook> sortedMap3 = multipleAddressBooks.mapBook.entrySet().stream().map(Map.Entry::getValue)
+					.flatMap(list -> list.stream()
+							.sorted((ad1, ad2) -> ad1.getStateName().compareTo(ad2.getStateName())))
+					.collect(Collectors.toList());
 			System.out.println(sortedMap3);
 			break;
-		case 4 :
-			List<AddressBook> sortedMap4 =multipleAddressBooks.mapBook.entrySet().stream()
-			.map(Map.Entry::getValue).flatMap(list -> list.stream()
-			.sorted((ad1,ad2) -> ad1.getZip().compareTo(ad2.getZip())))
-			.collect(Collectors.toList());
+		case 4:
+			List<AddressBook> sortedMap4 = multipleAddressBooks.mapBook.entrySet().stream().map(Map.Entry::getValue)
+					.flatMap(list -> list.stream().sorted((ad1, ad2) -> ad1.getZip().compareTo(ad2.getZip())))
+					.collect(Collectors.toList());
 			System.out.println(sortedMap4);
 
 			break;
+		}
+	}
+
+	public void writeInputFile() throws IOException {
+
+		StringBuffer stringBuffer = new StringBuffer();
+
+		List<String> list = multipleAddressBooks.mapBook.entrySet().stream().map(Map.Entry::getKey)
+				.collect(Collectors.toList());
+		for (String string : list) {
+			multipleAddressBooks.mapBook.entrySet().stream().filter(map -> map.getKey().contains(string))
+					.map(value -> value.getValue()).forEach(list1 -> {
+						list1.stream().forEach(ad -> {
+							String str = ad.toString().concat("\n");
+							stringBuffer.append(str);
+						});
+					});
+		}
+		PrintWriter printWriter = new PrintWriter(HOME);
+		printWriter.write(stringBuffer.toString());
+		printWriter.close();
+		System.out.println("successfully write into file");
+	}
+
+	@SuppressWarnings("resource")
+	public void readDatafromFile() throws IOException {
+		FileReader fileReader = new FileReader(HOME);
+		int ch;
+		while ((ch = fileReader.read()) != -1) {
+			System.out.print((char) ch);
 		}
 	}
 
