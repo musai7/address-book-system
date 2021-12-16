@@ -14,6 +14,11 @@ import java.util.Scanner;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+import com.github.cliftonlabs.json_simple.JsonObject;
 import com.opencsv.CSVWriter;
 
 public class ContactPerson {
@@ -21,6 +26,7 @@ public class ContactPerson {
 	static int value;
 	private static final String HOME = "data/addressBook.txt";
 	private static final String HOME_ONE = "data/addresses.csv";
+	private static final String MY_JSON = "data/addresses.json";
 
 	public static ArrayList<AddressBook> addreses;
 	MultipleAddressBooks multipleAddressBooks = MultipleAddressBooks.getInstance();
@@ -211,7 +217,7 @@ public class ContactPerson {
 		multipleAddressBooks.mapBook.put(person, ContactPerson.addreses);
 		System.out.println(multipleAddressBooks.mapBook);
 	}
-	
+
 	public void writeCSVFile() throws IOException {
 
 		List<String[]> stringslist = new ArrayList<>();
@@ -238,6 +244,46 @@ public class ContactPerson {
 			System.out.println("AddressBook [firstName=" + addressArray[0] + ", lastName=" + addressArray[1]
 					+ ", address=" + addressArray[2] + ", cityName=" + addressArray[3] + ", stateName="
 					+ addressArray[4] + ", zip=" + addressArray[5] + ", phoneNumber=" + addressArray[6] + "]");
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public void writeDataToJason() {
+
+		JSONObject jsonObject = new JSONObject();
+		JSONObject jsonObject2 = new JSONObject();
+		JSONArray jsonArray = new JSONArray();
+		multipleAddressBooks.mapBook.entrySet().stream().map(Map.Entry::getValue)
+				.forEach(list -> list.stream().forEach(ad -> {
+					jsonObject.put("firstName", ad.getFirstName());
+					jsonObject.put("lastName", ad.getLastName());
+					jsonObject.put("address", ad.getAddress());
+					jsonObject.put("cityName", ad.getCityName());
+					jsonObject.put("stateName", ad.getStateName());
+					jsonObject.put("zip", ad.getZip());
+					jsonObject.put("phoneNumber", ad.getPhoneNumber());
+					jsonObject2.put("AddressBook", jsonObject);
+					jsonArray.add(jsonObject2);
+				}));
+
+		try (FileWriter printWriter = new FileWriter(MY_JSON)) {
+			printWriter.write(jsonArray.toJSONString());
+			printWriter.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	public void readDataFromJason() {
+
+		JSONParser jsonParser = new JSONParser();
+		try (FileReader fileReader = new FileReader(MY_JSON)) {
+			Object obj = jsonParser.parse(fileReader);
+			JSONArray jsonArray = (JSONArray) obj;
+			System.out.println(jsonArray.toJSONString());
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 }
