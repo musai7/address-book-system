@@ -1,12 +1,5 @@
 package com.bridgeit.addressbooklogic;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,19 +7,12 @@ import java.util.Scanner;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
-import com.github.cliftonlabs.json_simple.JsonObject;
-import com.opencsv.CSVWriter;
-
-public class ContactPerson {
+public class ContactPerson implements IAddressBook {
 
 	static int value;
-	private static final String HOME = "data/addressBook.txt";
-	private static final String HOME_ONE = "data/addresses.csv";
-	private static final String MY_JSON = "data/addresses.json";
+	public static final String TEXT_FILE = "data/addressBook.txt";
+	public static final String CSV_FILE = "data/addresses.csv";
+	public static final String JSON_FILE = "data/addresses.json";
 
 	public static ArrayList<AddressBook> addreses;
 	MultipleAddressBooks multipleAddressBooks = MultipleAddressBooks.getInstance();
@@ -42,6 +28,7 @@ public class ContactPerson {
 		System.out.println(addreses);
 	}
 
+	@SuppressWarnings("resource")
 	public static AddressBook inputContactDetails() {
 
 		Scanner scanner = new Scanner(System.in);
@@ -64,7 +51,8 @@ public class ContactPerson {
 		return addressBook;
 	}
 
-	void updateContactConditionally(Predicate<AddressBook> predicate, String bookName, int num) {
+	@SuppressWarnings("resource")
+	public void updateContactConditionally(Predicate<AddressBook> predicate, String bookName, int num) {
 
 		List<ArrayList<AddressBook>> arrlist = multipleAddressBooks.mapBook.entrySet().stream()
 				.filter(k -> k.getKey().contains(bookName)).map(Map.Entry::getValue).collect(Collectors.toList());
@@ -86,7 +74,6 @@ public class ContactPerson {
 			System.out.println(list);
 			multipleAddressBooks.mapBook.replace(bookName, (ArrayList<AddressBook>) list);
 		}
-
 	}
 
 	// its check for the existing list contains unique name
@@ -102,11 +89,7 @@ public class ContactPerson {
 		return count;
 	}
 
-	public void printBooks(MultipleAddressBooks multipleAddressBooks) {
-
-		System.out.println(multipleAddressBooks.mapBook);
-	}
-
+	@SuppressWarnings("resource")
 	public void searchCityState() {
 
 		while (true) {
@@ -144,6 +127,7 @@ public class ContactPerson {
 	}
 
 	// sorting the address by contact name
+	@SuppressWarnings("resource")
 	public void sortingAddresses() {
 
 		Scanner scanner = new Scanner(System.in);
@@ -180,110 +164,10 @@ public class ContactPerson {
 			break;
 		}
 	}
-
-	public void writeInputFile() throws IOException {
-
-		StringBuffer stringBuffer = new StringBuffer();
-
-		List<String> list = multipleAddressBooks.mapBook.entrySet().stream().map(Map.Entry::getKey)
-				.collect(Collectors.toList());
-		for (String string : list) {
-			multipleAddressBooks.mapBook.entrySet().stream().filter(map -> map.getKey().contains(string))
-					.map(value -> value.getValue()).forEach(list1 -> {
-						list1.stream().forEach(ad -> {
-							String str = ad.toString().concat("\n");
-							stringBuffer.append(str);
-						});
-					});
-		}
-		PrintWriter printWriter = new PrintWriter(HOME);
-		printWriter.write(stringBuffer.toString());
-		printWriter.close();
-		System.out.println("successfully write into file");
-	}
-
-	@SuppressWarnings("resource")
-	public void readDatafromFile() throws IOException {
-		FileReader fileReader = new FileReader(HOME);
-		int ch;
-		while ((ch = fileReader.read()) != -1) {
-			System.out.print((char) ch);
-		}
-	}
-
-	// for storing the address into multiple Address books
+	
 	public void multiAddressBooks(String person, ArrayList<AddressBook> addreses2) {
 
 		multipleAddressBooks.mapBook.put(person, ContactPerson.addreses);
 		System.out.println(multipleAddressBooks.mapBook);
-	}
-
-	public void writeCSVFile() throws IOException {
-
-		List<String[]> stringslist = new ArrayList<>();
-		PrintWriter printWriter = new PrintWriter(HOME_ONE);
-		CSVWriter csvWriter = new CSVWriter(printWriter);
-
-		multipleAddressBooks.mapBook.entrySet().stream().map(Map.Entry::getValue)
-				.forEach(list -> list.stream().forEach(ad -> {
-					stringslist.add(new String[] { ad.getFirstName(), ad.getLastName(), ad.getAddress(),
-							ad.getCityName(), ad.getStateName(), ad.getZip(), ad.getPhoneNumber() });
-				}));
-		csvWriter.writeAll(stringslist);
-		csvWriter.close();
-		System.out.println("....successfully Write into csv file....");
-
-	}
-
-	public void readCSVFile() throws IOException {
-
-		BufferedReader br = new BufferedReader(new FileReader(HOME_ONE));
-		String line = "";
-		while ((line = br.readLine()) != null) {
-			String[] addressArray = line.split(",");
-			System.out.println("AddressBook [firstName=" + addressArray[0] + ", lastName=" + addressArray[1]
-					+ ", address=" + addressArray[2] + ", cityName=" + addressArray[3] + ", stateName="
-					+ addressArray[4] + ", zip=" + addressArray[5] + ", phoneNumber=" + addressArray[6] + "]");
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	public void writeDataToJason() {
-
-		JSONObject jsonObject = new JSONObject();
-		JSONObject jsonObject2 = new JSONObject();
-		JSONArray jsonArray = new JSONArray();
-		multipleAddressBooks.mapBook.entrySet().stream().map(Map.Entry::getValue)
-				.forEach(list -> list.stream().forEach(ad -> {
-					jsonObject.put("firstName", ad.getFirstName());
-					jsonObject.put("lastName", ad.getLastName());
-					jsonObject.put("address", ad.getAddress());
-					jsonObject.put("cityName", ad.getCityName());
-					jsonObject.put("stateName", ad.getStateName());
-					jsonObject.put("zip", ad.getZip());
-					jsonObject.put("phoneNumber", ad.getPhoneNumber());
-					jsonObject2.put("AddressBook", jsonObject);
-					jsonArray.add(jsonObject2);
-				}));
-
-		try (FileWriter printWriter = new FileWriter(MY_JSON)) {
-			printWriter.write(jsonArray.toJSONString());
-			printWriter.close();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
-
-	public void readDataFromJason() {
-
-		JSONParser jsonParser = new JSONParser();
-		try (FileReader fileReader = new FileReader(MY_JSON)) {
-			Object obj = jsonParser.parse(fileReader);
-			JSONArray jsonArray = (JSONArray) obj;
-			System.out.println(jsonArray.toJSONString());
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
 	}
 }

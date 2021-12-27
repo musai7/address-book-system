@@ -1,7 +1,6 @@
 package com.bridgeit.addressbooklogic;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AddressBookMain {
@@ -9,9 +8,11 @@ public class AddressBookMain {
 	public final static int EXIT = 2;
 	public final static int EXIT_TWO = 13;
 
+	@SuppressWarnings("resource")
 	public static void main(String[] args) throws IOException {
 
 		MultipleAddressBooks multipleAddressBooks = MultipleAddressBooks.getInstance();
+		FileIOService readAndWriteData = new FileIOService();
 
 		System.out.println("....................welcome to the address book program..........................");
 		Scanner scanner = new Scanner(System.in);
@@ -20,6 +21,7 @@ public class AddressBookMain {
 
 			ContactPerson contactPerson = new ContactPerson();
 			AddressBook addressBook = new AddressBook();
+			UserInterface userInterface = new UserInterface();
 
 			System.out.println("enter one to create a address book : ");
 			int check = scanner.nextInt();
@@ -29,16 +31,7 @@ public class AddressBookMain {
 				System.out.println("enter an adress book name : ");
 				person = scanner.next();
 			}
-
-			System.out.println(
-					"\n enter 1 : for enter into an address book \n enter 2 : for modify the contact details \n enter 3 : for delate contact "
-							+ "\n enter 4 : for search city or state \n enter 5 : for print multipleBoks"
-							+ " \n enter 6 : for sorting address \n enter 7 : for write the data into file \n enter 8 : for read the data from file "
-							+ "\n enter 9 : for write the data into CSV file \n enter 10 : for read the data from CSV file "
-							+ " \n enter 11 : for write the data into JSON file " + " \n enter 12 : for read the data from JSON file "
-							+ "\n enter " + EXIT_TWO + " : for exit \n ");
-			int num = scanner.nextInt();
-
+			int num = userInterface.showUserMenu();
 			switch (num) {
 			case 1:
 				int exit = 0;
@@ -85,28 +78,28 @@ public class AddressBookMain {
 				contactPerson.searchCityState();
 				break;
 			case 5:
-				contactPerson.printBooks(multipleAddressBooks);
+				userInterface.printBooks(multipleAddressBooks);
 				break;
 			case 6:
 				contactPerson.sortingAddresses();
 				break;
 			case 7:
-				contactPerson.writeInputFile();
+				readAndWriteData.writeTxtData.writeDataIntoFile();
 				break;
 			case 8:
-				contactPerson.readDatafromFile();
+				readAndWriteData.readTxtData.readDataFromFile();
 				break;
 			case 9:
-				contactPerson.writeCSVFile();
+				readAndWriteData.writeCSVData.writeDataIntoFile();
 				break;
 			case 10:
-				contactPerson.readCSVFile();
+				readAndWriteData.readCSVData.readDataFromFile();
 				break;
 			case 11:
-				contactPerson.writeDataToJason();
+				readAndWriteData.writeJSONData.writeDataIntoFile();
 				break;
 			case 12:
-				contactPerson.readDataFromJason();
+				readAndWriteData.readJSONData.readDataFromFile();
 				break;
 			case EXIT_TWO:
 

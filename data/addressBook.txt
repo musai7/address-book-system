@@ -1,2 +1,1 @@
-AddressBook [firstName=mani, lastName=kanta, address=85-210, cityName=poda, stateName=ap, zip=533221, phoneNumber=8520963741]
-AddressBook [firstName=musai, lastName=shankar, address=5-133, cityName=rvpm, stateName=ap, zip=533201, phoneNumber=9632587410]
+AddressBook [firstName :gana, lastName :venkat, address :12-135/21, cityName :gpm, stateName :ap, zip :533421, phoneNumber :9874563210]
